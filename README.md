@@ -1,4 +1,4 @@
-# udacity-devops-capstone-project
+# Udacity-cloud-devops-engineer-capstone-project
 This is the capstone project for fulfillment of [Udacity Cloud DevOps Engineer Nanodegree](https://www.udacity.com/course/cloud-dev-ops-nanodegree--nd9991).
 
 This project is using - 
@@ -11,8 +11,15 @@ This project is using -
 * [CloudFront](https://aws.amazon.com/cloudfront/) to access the website content
 
 ## Project Overview
-In this project a simple webapp is being built through a CICD pipeline and deployed on a kybernetes cluster in AWS using a Blue/Green Deployment strategy.
+In this project a simple webapp is being built through a CircleCI CICD pipeline and deployed on a kybernetes cluster in AWS using a Blue/Green Deployment strategy.
 The Kubernetes cluster has been built on AWS EC2 instances.
+
+## The application: 
+
+## Infrastructure:
+Infrastructure creation and deployment is automated via AWS CloudFormation - run in a CircleCI pipeline that can be triggered whenever new code is merged in Github repo.
+
+## Project Structure
 
 ## Project Files
 ```
@@ -48,3 +55,12 @@ The Kubernetes cluster has been built on AWS EC2 instances.
 ├── run.sh                  # Script for create/update/delete CloudFormation stacks
 └── src                     # Source code of website
 ```
+## How-to run
+Configure CircleCI pipeline and connect through github
+Install dependencies
+Build the application (TypeScript --> JavaScript)
+Lint the code
+Build a Docker image based off of my Dockerfile
+Upload the container to the Docker Registry
+Create the Kubernetes configuration file
+Deploy the application to my AWS EKS cluster
