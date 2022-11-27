@@ -17,10 +17,9 @@ install-hadolint:
 lint_docker:
 	# This is a linter for Dockerfiles
 	hadolint Dockerfile
-	pylint --disable=R,C,W1203,W1202 app.py
-		
+
 lint_python:
 	# This is a linter for Python source code: https://www.pylint.org/
 	pylint --disable=R,C,W1202 app.py
 
-all: setup install lint
+all: setup install lint_python lint_docker
