@@ -43,7 +43,7 @@ jobs:
           name: Lint python
           command: |
             . venv/bin/activate
-            make lint           
+            make lint_python           
       - save_cache:
           paths:
             - ./venv
@@ -62,7 +62,9 @@ jobs:
             - v1-dependencies-     
       - run:
           name: Lint dockerfile      
-          command: hadolint Dockerfile
+          command: |
+            . venv/bin/activate
+            make lint_docker
       - save_cache:
           paths:
             - ./venv
