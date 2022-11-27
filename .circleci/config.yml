@@ -89,7 +89,7 @@ workflows:
   version: 2
   build-and-test:
     jobs:
-      - setup-env-and-install-dependencies:
+      - setup-env-and-install-dependencies
       - lint-python:
           requires:
             - install-dependencies
