@@ -81,7 +81,9 @@ jobs:
       - run:
           name: Create EKS Cluster
           command: |
-            if [[ $(aws cloudformation describe-stacks --region us-east-1 --stack-name eksctl-uda-capstone-cluster  > /dev/null 2>&1) -eq 0  ]];
+
+            aws cloudformation describe-stacks --region us-east-1 --stack-name eksctl-uda-capstone-cluster  > /dev/null 2>&1
+            if [ $? = 0  ];
             then
               echo "EKS Cluster already exists"
             else
