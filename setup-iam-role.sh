@@ -7,7 +7,7 @@ EKS_ADMIN_USER=udacity-eks-admin-user
 AWS_REGION=us-east-1
 
 aws cloudformation deploy \
-  --template-file ../config/iam/prepare-iam-cfn.yaml \
+  --template-file ../infra/iam.yaml \
   --stack-name $CFN_STACK_NAME \
   --parameter-overrides EKSUserName=$EKS_ADMIN_USER EKSRoleName=$EKS_ROLE_NAME \
   --region $AWS_REGION \
