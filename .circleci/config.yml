@@ -67,6 +67,23 @@ jobs:
             echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USERNAME --password-stdin
             docker push amitgoel2k/udacity-capstone-project-hello:latest
 
+  create-eks-cluster:
+    working_directory: ~/apps
+    docker:
+      - image: 'weaveworks/eksctl:latest'
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-         
+      - run:
+          name: Lint python and dockerfile
+          command: |
+            eksctl create cluster -f infra/eks-cluster.yaml
+
+
 
 workflows:
   version: 2
@@ -79,3 +96,4 @@ workflows:
       - build-docker-image:
           requires:
             - lint
+      - create-eks-cluster
