@@ -79,10 +79,18 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-         
       - run:
-          name: Lint python and dockerfile
+          name: Create EKS Cluster
           command: |
-            eksctl create cluster -f infra/eks-cluster.yaml
-
+            if aws cloudformation describe-stacks --region us-east-1 --stack-name eksctl-uda-capstone-cluster  > /dev/null 2>&1
+            then
+              echo "EKS Cluster already exists"  
+            else
+              echo "Creating EKS Cluster"
+              eksctl create cluster -f infra/eks-cluster.yaml
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
 
 
 workflows:
