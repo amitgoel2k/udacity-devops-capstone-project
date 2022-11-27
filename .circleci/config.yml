@@ -92,7 +92,7 @@ workflows:
       - setup-env-and-install-dependencies
       - lint-python:
           requires:
-            - install-dependencies
+            - setup-env-and-install-dependencies
       - lint-dockerfile:
           requires:
             - lint-python
