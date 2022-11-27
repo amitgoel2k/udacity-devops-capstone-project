@@ -81,18 +81,56 @@ jobs:
       - run:
           name: Create EKS Cluster
           command: |
-            aws cloudformation describe-stacks --region us-east-1 --stack-name eksctl-uda-capstone-cluster  > /dev/null 2>&1
+            aws cloudformation describe-stacks --region us-east-1 --stack-name eksctl-uda-capstone-cluster
             if [[ $? -eq 0 ]]; then
               echo "EKS Cluster already exists"
             else
               echo "Creating EKS Cluster"
               eksctl create cluster -f infra/eks-cluster.yaml
+              ./setup-iam-role.sh 
             fi
       - save_cache:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
+  setup-iam:
+    working_directory: ~/apps
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-         
+      - run:
+          name: Setup IAM role
+          command: |
+              ./setup-iam-role.sh
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+  deploy-application:
+    working_directory: ~/apps
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-         
+      - run:
+          name: Deploy Docker Image to EKS Cluster
+          command: |  
+            aws eks --region us-east-1 update-kubeconfig --name uda-capstone
+            kubectl apply -f deploy/deployment.yamls
+            
 
 workflows:
   version: 2
@@ -105,4 +143,8 @@ workflows:
       - build-docker-image:
           requires:
             - lint
-      - create-eks-cluster
+#      - create-eks-cluster
+      - setup-iam
+      - deploy-application:
+         requires:
+            - build-docker-image
