@@ -64,7 +64,7 @@ jobs:
           command: |
             docker build -t capstone .
             docker tag capstone amitgoel2k/udacity_capstone_project_hello:latest
-            echo $DOCKER_PASS | docker login -u amitgoel2k --password-stdin
+            echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USERNAME --password-stdin
             docker push amitgoel2k/udacity-capstone-project-hello:latest
 
 
