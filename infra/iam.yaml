@@ -1,0 +1,52 @@
+Description: >
+  Udacity Capstone IAM Roles and Permissions for EKS setup
+Parameters:
+  EKSUserName:
+    Type: String
+  EKSRoleName:
+    Type: String
+
+Resources:
+
+  EKSAssumeRolePolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: EKSAssumeRolePolicy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'sts:AssumeRole'
+            Resource: !GetAtt EKSAdminRole.Arn
+      Users: 
+        - !Ref EKSAdminUser
+
+  EKSAdminUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Ref EKSUserName
+        
+  EKSAdminRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Ref EKSRoleName
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !GetAtt EKSAdminUser.Arn
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AdministratorAccess"
+      Path: /
+
+Outputs:
+  EKSAdminUserARN:
+    Value: !GetAtt EKSAdminUser.Arn
+    Description: EKS Admin User Arn
+  EKSAdminRoleARN:
+    Value: !GetAtt EKSAdminRole.Arn
+    Description: EKS Admin Role Arn
