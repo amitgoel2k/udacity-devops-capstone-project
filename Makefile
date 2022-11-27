@@ -10,11 +10,9 @@ install:
 	pip install --no-cache-dir --upgrade pip==20.3.1 && \
 		pip install --no-cache-dir -r requirements.txt
 
-install-hadolint:
+lint_docker:
 	wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.17.5/hadolint-Linux-x86_64
 	chmod +x /bin/hadolint
-
-lint_docker:
 	# This is a linter for Dockerfiles
 	hadolint Dockerfile
 
