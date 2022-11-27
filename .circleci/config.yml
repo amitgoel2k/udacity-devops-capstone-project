@@ -87,6 +87,7 @@ jobs:
             else
               echo "Creating EKS Cluster"
               eksctl create cluster -f infra/eks-cluster.yaml
+            fi
       - save_cache:
           paths:
             - ./venv
