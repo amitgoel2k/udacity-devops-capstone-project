@@ -108,7 +108,7 @@ jobs:
       - run:
           name: Setup IAM role
           command: |
-              ./setup-iam-role.sh
+              sudo ./setup-iam-role.sh
       - save_cache:
           paths:
             - ./venv
@@ -117,7 +117,7 @@ jobs:
   deploy-application:
     working_directory: ~/apps
     docker:
-      - image: amazon/aws-cli
+      - image: bearengineer/awscli-kubectl
     steps:
       - checkout
       - restore_cache:
