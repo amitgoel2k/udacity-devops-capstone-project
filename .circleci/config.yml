@@ -28,7 +28,7 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
-  lint-python:
+  lint:
     working_directory: ~/apps
     docker:
       - image: 'python:3.7.3-stretch'
@@ -40,35 +40,16 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-         
       - run:
-          name: Lint python
+          name: Lint python and dockerfile
           command: |
             . venv/bin/activate
-            make lint_python           
+            make lint_python
+            make lint_docker           
       - save_cache:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }} 
 
-  lint-dockerfile:
-    working_directory: ~/apps
-    docker:
-      - image: hadolint/hadolint
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-     
-      - run:
-          name: Lint dockerfile      
-          command: |
-            . venv/bin/activate
-            make lint_docker
-      - save_cache:
-          paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
 
   build-docker-image:
     working_directory: ~/apps
@@ -92,12 +73,9 @@ workflows:
   build-and-test:
     jobs:
       - setup-env-and-install-dependencies
-      - lint-python:
+      - lint:
           requires:
             - setup-env-and-install-dependencies
-      - lint-dockerfile:
-          requires:
-            - lint-python
       - build-docker-image:
           requires:
-            - lint-dockerfile
+            - lint
