@@ -86,6 +86,7 @@ jobs:
             if [ $STATUS -eq 0 ]; then
               touch flag-on
             fi
+            ls flag-on
       - save_cache:
           paths:
             - ./venv
