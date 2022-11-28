@@ -82,6 +82,10 @@ jobs:
           name: Check if EKS Cluster exists
           command: |
             aws cloudformation describe-stacks --region us-east-1 --stack-name eksctl-uda-capstone-cluster > /dev/null 2>&1 ; STATUS=$?
+            echo $STATUS
+            if [ $STATUS -eq 0 ]; then
+              touch flag-on
+            fi
       - save_cache:
           paths:
             - ./venv
