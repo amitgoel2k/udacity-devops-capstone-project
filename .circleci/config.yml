@@ -102,7 +102,7 @@ jobs:
           name: Create EKS Cluster
           command: |
             echo $STATUS
-            if [[ $STATUS -eq 0 ]]; then
+            if [ $STATUS -eq 0 ]; then
               echo "Cluster exists"
             else
               echo "Creating EKS cluster"
