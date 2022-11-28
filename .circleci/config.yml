@@ -111,7 +111,8 @@ jobs:
       - run:
           name: Create EKS Cluster
           command: |
-            eksctl get cluster |grep uda-capstone1 > /dev/null 2>&1 ; STATUS=$? ; echo $STATUS
+            STATUS=$(eksctl get cluster |grep uda-capstone > /dev/null 2>&1)
+            echo $STATUS
             if [ $STATUS -eq 0 ]; then
               echo "Cluster exists"
             else
