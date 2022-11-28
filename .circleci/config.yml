@@ -163,11 +163,11 @@ workflows:
             - lint
       - check-eks-cluster
       - create-eks-cluster:
-        requires:
+          requires:
             - check-eks-cluster
       - setup-iam:
-        requires:
+          requires:
             - check-eks-cluster
       - deploy-application:
-         requires:
+          requires:
             - build-docker-image, create-eks-cluster
