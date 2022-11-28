@@ -67,6 +67,26 @@ jobs:
             echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USERNAME --password-stdin
             docker push amitgoel2k/udacity-capstone-project-hello:latest
 
+  check-eks-cluster:
+    working_directory: ~/apps
+    docker:
+      - image: 'amazon/aws-cli'
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-         
+      - run:
+          name: Check if EKS Cluster exists
+          command: |
+            aws cloudformation describe-stacks --region us-east-1 --stack-name eksctl-uda-capstone-cluster > /dev/null 2>&1 ; STATUS=$?
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}  
+  
   create-eks-cluster:
     working_directory: ~/apps
     docker:
@@ -81,6 +101,11 @@ jobs:
       - run:
           name: Create EKS Cluster
           command: |
+            echo $STATUS
+            if [[ $STATUS -eq 0 ]]; then
+              echo "Cluster exists"
+            else
+            echo "Creating EKS cluster"
             eksctl create cluster -f infra/eks-cluster.yaml
       - save_cache:
           paths:
