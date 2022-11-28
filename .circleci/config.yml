@@ -105,8 +105,7 @@ jobs:
       - run:
           name: Create EKS Cluster
           command: |
-            echo $STATUS
-            if [ $STATUS -eq 0 ]; then
+            if [ -f flag-on ]; then
               echo "Cluster exists"
             else
               echo "Creating EKS cluster"
