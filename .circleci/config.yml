@@ -106,6 +106,7 @@ jobs:
       - run:
           name: Create EKS Cluster
           command: |
+            ls flag-on
             if [ -f flag-on ]; then
               echo "Cluster exists"
             else
