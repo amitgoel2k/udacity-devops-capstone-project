@@ -81,13 +81,13 @@ jobs:
       - run:
           name: Create EKS Cluster
           command: |
-            aws cloudformation describe-stacks --region us-east-1 --stack-name eksctl-uda-capstone-cluster
-            if [[ $? -eq 0 ]]; then
+            aws cloudformation describe-stacks --region us-east-1 --stack-name eksctl-uda-capstone-cluster; STATUS=$?
+            echo $STATUS
+            if [[ $STATUS -eq 0 ]]; then
               echo "EKS Cluster already exists"
             else
               echo "Creating EKS Cluster"
               eksctl create cluster -f infra/eks-cluster.yaml
-              ./setup-iam-role.sh 
             fi
       - save_cache:
           paths:
@@ -143,7 +143,7 @@ workflows:
       - build-docker-image:
           requires:
             - lint
-#      - create-eks-cluster
+      - create-eks-cluster
       - setup-iam
       - deploy-application:
          requires:
