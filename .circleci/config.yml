@@ -109,12 +109,9 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-         
       - run:
-          name: Get EKS Cluster status
-          command: |
-            CLUSTER=$(eksctl get cluster |grep uda-capstone|awk '{print $1}')
-      - run:
           name: Create EKS Cluster
           command: |        
+            CLUSTER=$(eksctl get cluster |grep uda-capstone|awk '{print $1}')
             echo $CLUSTER
             if [ "$CLUSTER" = "uda-capstone" ]
             then
