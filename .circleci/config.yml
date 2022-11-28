@@ -160,7 +160,15 @@ jobs:
           name: Deploy Docker Image to EKS Cluster
           command: |  
             aws eks --region us-east-1 update-kubeconfig --name uda-capstone
-            kubectl create namespace uda-capstone
+            NS=$(kubectl get namespace uda-capstone |grep uda-capstone|awk '{print $1}')
+            echo $NS
+            if [ "$NS" = "uda-capstone" ]
+            then
+              echo "Namespace exists"
+            else
+              echo "Creating Namespace"
+              kubectl create namespace uda-capstone
+            fi
             kubectl apply -f deploy/deployment.yaml
             
 
