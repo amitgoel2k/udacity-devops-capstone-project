@@ -81,6 +81,7 @@ jobs:
       - run:
           name: Check if EKS Cluster exists
           command: |
+            yum install -y tar gzip curl
             aws cloudformation describe-stacks --region us-east-1 --stack-name eksctl-uda-capstone-cluster > /dev/null 2>&1 ; STATUS=$?
             echo $STATUS
             if [ $STATUS -eq 0 ]; then
@@ -112,6 +113,7 @@ jobs:
       - run:
           name: Create EKS Cluster
           command: |
+            yum install -y tar gzip curl
             ls flag-on
             if [ -f flag-on ]; then
               echo "Cluster exists"
