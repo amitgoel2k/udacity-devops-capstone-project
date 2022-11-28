@@ -17,13 +17,3 @@ In this project a docker image has been built for a simple python app which has 
 * Setup IAM
 * Create EKS Cluster if does't exist
 * Pull docker image and deploy application to EKS Cluster
-
-## How-to run
-Configure CircleCI pipeline and connect through github
-Install dependencies
-Build the application
-Lint the code
-Build a Docker image based on my Dockerfile
-Upload the container to the Docker Hub Registry
-Create the Kubernetes deployment file
-Deploy the application to my AWS EKS cluster
