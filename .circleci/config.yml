@@ -105,8 +105,9 @@ jobs:
             if [[ $STATUS -eq 0 ]]; then
               echo "Cluster exists"
             else
-            echo "Creating EKS cluster"
-            eksctl create cluster -f infra/eks-cluster.yaml
+              echo "Creating EKS cluster"
+              eksctl create cluster -f infra/eks-cluster.yaml
+            fi  
       - save_cache:
           paths:
             - ./venv
