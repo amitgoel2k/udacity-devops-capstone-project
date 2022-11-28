@@ -169,5 +169,4 @@ workflows:
           requires:
             - check-eks-cluster
       - deploy-application:
-          requires:
-            - build-docker-image, create-eks-cluster
+          requires: ['build-docker-image' , 'create-eks-cluster']
