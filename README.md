@@ -27,3 +27,6 @@ Build a Docker image based on my Dockerfile
 Upload the container to the Docker Hub Registry
 Create the Kubernetes deployment file
 Deploy the application to my AWS EKS cluster
+
+## Submission
+The project submission contains all the project files, a text file containing link to GitHub repo and screenshots as required for the fulfilment of the Project.
