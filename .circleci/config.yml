@@ -173,11 +173,7 @@ workflows:
           requires:
             - lint
 #      - check-eks-cluster
-      - create-eks-cluster:
-#          requires:
-#            - check-eks-cluster
-      - setup-iam:
-#          requires:
-#            - check-eks-cluster
+      - create-eks-cluster
+      - setup-iam
       - deploy-application:
           requires: ['build-docker-image' , 'create-eks-cluster']
