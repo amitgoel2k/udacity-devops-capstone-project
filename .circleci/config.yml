@@ -165,7 +165,7 @@ workflows:
       - create-eks-cluster:
         requires:
             - check-eks-cluster
-      - setup-iam
+      - setup-iam:
         requires:
             - check-eks-cluster
       - deploy-application:
