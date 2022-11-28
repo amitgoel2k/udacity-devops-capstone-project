@@ -63,9 +63,9 @@ jobs:
           name: Build and push Docker image
           command: |
             docker build -t capstone .
-            docker tag capstone amitgoel2k/udacity-capstone-project-hello:latest
             echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USERNAME --password-stdin
-            docker push amitgoel2k/udacity-capstone-project-hello:latest
+            docker tag capstone amitgoel2k/capstone:latest
+            docker push amitgoel2k/capstone:latest
 
   check-eks-cluster:
     working_directory: ~/apps

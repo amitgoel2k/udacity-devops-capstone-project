@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: hello
-        image: amitgoel2k/udacity-capstone-project-hello:latest
+        image: amitgoel2k/capstone:latest
         ports:
         - containerPort: 8080
   strategy:
