@@ -102,9 +102,7 @@ jobs:
     docker:
       - image: 'weaveworks/eksctl:latest'
     steps:
-      - checkout
-      - attach_workspace:
-          at: .      
+      - checkout 
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "requirements.txt" }}
@@ -113,9 +111,8 @@ jobs:
       - run:
           name: Create EKS Cluster
           command: |
-            yum install -y tar gzip curl
-            ls flag-on
-            if [ -f flag-on ]; then
+            eksctl get cluster |grep uda-capstone1 > /dev/null 2>&1 ; STATUS=$? ; echo $STATUS
+            if [ $STATUS -eq 0 ]; then
               echo "Cluster exists"
             else
               echo "Creating EKS cluster"
@@ -175,12 +172,12 @@ workflows:
       - build-docker-image:
           requires:
             - lint
-      - check-eks-cluster
+#      - check-eks-cluster
       - create-eks-cluster:
-          requires:
-            - check-eks-cluster
+#          requires:
+#            - check-eks-cluster
       - setup-iam:
-          requires:
-            - check-eks-cluster
+#          requires:
+#            - check-eks-cluster
       - deploy-application:
           requires: ['build-docker-image' , 'create-eks-cluster']
