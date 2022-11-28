@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/amitgoel2k/udacity-devops-capstone-project.svg?style=svg)](https://circleci.com/gh/amitgoel2k/udacity-devops-capstone-project)
 # Udacity-cloud-devops-engineer-capstone-project
 This is the capstone project for fulfillment of [Udacity Cloud DevOps Engineer Nanodegree](https://www.udacity.com/course/cloud-dev-ops-nanodegree--nd9991).
 
