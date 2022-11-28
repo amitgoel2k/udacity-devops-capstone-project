@@ -87,6 +87,10 @@ jobs:
               touch flag-on
             fi
             ls flag-on
+      - persist_to_workspace:
+          root: .
+          paths:
+            - flag-on            
       - save_cache:
           paths:
             - ./venv
@@ -98,6 +102,8 @@ jobs:
       - image: 'weaveworks/eksctl:latest'
     steps:
       - checkout
+      - attach_workspace:
+          at: .      
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "requirements.txt" }}
